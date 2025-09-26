@@ -543,6 +543,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2026633705268414814, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 330585545}
+    - target: {fileID: 2026633705268414814, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
+      propertyPath: _controller
+      value: 
+      objectReference: {fileID: 3354450982047400771}
+    - target: {fileID: 2026633705268414814, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
+      propertyPath: _jumpHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2026633705268414814, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
+      propertyPath: _movementSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2685669965379939303, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
       propertyPath: m_Name
       value: Player
@@ -592,6 +608,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
+--- !u!143 &3354450982047400771 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 2430879206928861841, guid: b5d0ff97510bbeb418902f8386ce6c70, type: 3}
+  m_PrefabInstance: {fileID: 3354450982047400770}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Objects")]
+    [SerializeField] private CharacterController _controller;
+    [SerializeField] private Camera _camera;
+    [Header("Player Stats")]
+    [SerializeField] private float _movementSpeed;
+    [SerializeField] private float _jumpHeight;
+    
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

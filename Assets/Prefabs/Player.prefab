@@ -149,3 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed21ecfc42f9964ebbcaf65fb31075e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controller: {fileID: 2430879206928861841}
+  _camera: {fileID: 0}
+  _movementSpeed: 1
+  _jumpHeight: 1
