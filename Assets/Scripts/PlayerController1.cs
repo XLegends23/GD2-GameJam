@@ -1,4 +1,4 @@
-using TMPro;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +7,7 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
     [Header("Objects")]
     [SerializeField] private CharacterController _controller;
     [SerializeField] private Camera _camera;
+    [SerializeField] private ParticleSystem _particleSystem;
     [Header("Player Stats")]
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _jumpHeight;
@@ -18,7 +19,9 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     private PlayerControls _controls;
 
-    public bool IsGround;
+    private bool IsGround;
+
+    private IEnumerator _attack;
 
     private void Awake()
     {
@@ -51,6 +54,13 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
         _controller.Move(_movementDirection * Time.deltaTime * _movementSpeed);
     }
 
+    IEnumerator Attack()
+    {
+        _particleSystem.Play();
+        yield return new WaitForSeconds(1);
+        _attack = null;
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         _movementInput = context.ReadValue<Vector2>();
@@ -64,7 +74,12 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if (_attack != null)
+        {
+            return;
+        }
+        _attack = Attack();
+        StartCoroutine(_attack);
     }
 
     public void OnInteract(InputAction.CallbackContext context)
