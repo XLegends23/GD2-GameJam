@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Xml.Serialization;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,12 +20,18 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
     private PlayerControls _controls;
 
     private bool IsGround;
+    private bool IsStunned;
 
     private IEnumerator _attack;
+    private IEnumerator _stun;
 
     void OnParticleCollision()
     {
-
+        Debug.Log("hit");
+        if (_stun != null) return;
+        IsStunned = true;
+        _stun = Stun();
+        StartCoroutine(_stun);
     }
 
     void Awake()
@@ -40,11 +43,14 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     void Update()
     {
-        _controller.Move(_velocity * Time.deltaTime);
-        IsGround = _controller.isGrounded;
-        ApplyGravity();
-        ApplyMovement();
-        ApplyRotation();
+        if (!IsStunned)
+        {
+            _controller.Move(_velocity * Time.deltaTime);
+            IsGround = _controller.isGrounded;
+            ApplyGravity();
+            ApplyMovement();
+            ApplyRotation();
+        }
     }
 
     void ApplyGravity()
@@ -75,6 +81,12 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
         _particleSystem.Play();
         yield return new WaitForSeconds(1);
         _attack = null; 
+    }
+    IEnumerator Stun()
+    {
+        yield return new WaitForSeconds(3);
+        IsStunned = false;
+        _stun = null;
     }
 
     public void OnMove(InputAction.CallbackContext context)
