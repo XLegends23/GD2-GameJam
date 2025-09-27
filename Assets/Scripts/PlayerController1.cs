@@ -1,4 +1,7 @@
+using System;
 using System.Collections;
+using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,7 +26,12 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     private IEnumerator _attack;
 
-    private void Awake()
+    void OnParticleCollision()
+    {
+
+    }
+
+    void Awake()
     {
         _controls = new PlayerControls();
         _controls.Player.Enable();
@@ -66,7 +74,7 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
     {
         _particleSystem.Play();
         yield return new WaitForSeconds(1);
-        _attack = null;
+        _attack = null; 
     }
 
     public void OnMove(InputAction.CallbackContext context)
