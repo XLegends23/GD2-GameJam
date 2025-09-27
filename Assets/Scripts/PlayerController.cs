@@ -1,8 +1,5 @@
-using System;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
 {

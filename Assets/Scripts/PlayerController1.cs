@@ -36,6 +36,7 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
         IsGround = _controller.isGrounded;
         ApplyGravity();
         ApplyMovement();
+        ApplyRotation();
     }
 
     void ApplyGravity()
@@ -50,8 +51,15 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     void ApplyMovement()
     {
-        _movementDirection = new Vector3(_movementInput.x, 0, _movementInput.y);
+        Vector3 movementDirectionZ = transform.right * _movementInput.x;
+        Vector3 movementDirectionX = transform.forward * _movementInput.y;
+        _movementDirection = (movementDirectionX + movementDirectionZ).normalized;
         _controller.Move(_movementDirection * Time.deltaTime * _movementSpeed);
+    }
+
+    void ApplyRotation()
+    {
+        transform.forward = new Vector3(_camera.transform.forward.x, 0, _camera.transform.forward.z);
     }
 
     IEnumerator Attack()
