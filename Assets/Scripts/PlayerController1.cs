@@ -12,6 +12,8 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _jumpHeight;
 
+    public int Score { get; private set; }
+
     private Vector3 _velocity;
     private Vector3 _movementDirection;
 
@@ -36,6 +38,7 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     void Awake()
     {
+        Score = Random.Range(0, 10);
         _controls = new PlayerControls();
         _controls.Player.Enable();
         _controls.Player.SetCallbacks(this);
