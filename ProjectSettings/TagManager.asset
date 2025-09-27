@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - CinemachineTarget
+  - Fire
+  - Player1
+  - Player2
+  - Obstacle
   layers:
   - Default
   - TransparentFX

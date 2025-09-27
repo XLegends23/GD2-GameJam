@@ -46,9 +46,9 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     void Update()
     {
+        _controller.Move(_velocity * Time.deltaTime);
         if (!IsStunned)
         {
-            _controller.Move(_velocity * Time.deltaTime);
             IsGround = _controller.isGrounded;
             ApplyGravity();
             ApplyMovement();
