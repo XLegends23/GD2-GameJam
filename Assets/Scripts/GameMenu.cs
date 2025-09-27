@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameMenu : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _leaderboard;
     [SerializeField] private Text _timer;
@@ -17,7 +18,7 @@ public class GameMenu : MonoBehaviour
     [Obsolete]
     private void Awake()
     {
-        PlayerController1[] players = FindObjectsOfType<PlayerController1>();
+        PlayerController1[] players = FindObjectsOfType<PlayerController1>();   
         for (int i = 0; i < players.Length; i++)
         {
             _players.Add(players[i], i + 1);
@@ -54,6 +55,7 @@ public class GameMenu : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
+        SceneManager.LoadScene("EndScreen");
     }
     IEnumerator LeaderboardUpdate()
     {

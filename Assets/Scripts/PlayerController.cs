@@ -1,3 +1,5 @@
+using Unity.Cinemachine;
+using Unity.Cinemachine.Samples;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +12,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _jumpHeight;
     [SerializeField] private float _rotateSpeed = 2.5f;
+    [SerializeField] private CinemachineInputAxisController _control;
+    [SerializeField] private CinemachineBrain _brain;
+    [SerializeField] private CinemachineCamera _cineCam;
 
+    public int PlayerCount;
 
     private Vector3 _velocity;
     private Vector3 _movementDirection;
@@ -25,27 +31,21 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        //_controls = new PlayerControls();
-        //_controls.Player.Enable();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
 
+        _brain.ChannelMask = (OutputChannels)(1 << PlayerCount);
+        _cineCam.OutputChannel = (OutputChannels)(1 << PlayerCount);
+    }
+            
     void Update()
     {
-        //_controller.Move(_velocity * Time.deltaTime);
         
         ApplyGravity();
         ApplyMovement();
         ApplyRotation();
         IsGround = _controller.isGrounded;
     }
-
-    private void ApplyRotation()
-    {
-        transform.forward = new Vector3(_camera.transform.forward.x, 0, _camera.transform.forward.z);
-    }
-
 
     void ApplyGravity()
     {
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
             _velocity.y = Physics.gravity.y * _controller.skinWidth;
             return;
         }
-        _velocity.y += Physics.gravity.y * Time.deltaTime;
+        _velocity.y += Physics.gravity.y * Time.deltaTime;  
     }
 
     void ApplyMovement()
@@ -65,6 +65,10 @@ public class PlayerController : MonoBehaviour
         transform.Translate(_movementDirection * (_movementSpeed * Time.deltaTime), Space.World);
     }
 
+    private void ApplyRotation()
+    {
+        transform.forward = new Vector3(_camera.transform.forward.x, 0, _camera.transform.forward.z);
+    }
 
     public void OnMove(InputValue input)
     {
@@ -76,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         _lookInput = input.Get<Vector2>();
     }
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttack(InputValue value)
     {
         throw new System.NotImplementedException();
     }

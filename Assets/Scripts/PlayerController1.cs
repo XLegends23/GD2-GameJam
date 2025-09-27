@@ -102,7 +102,7 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
     {
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttack(InputValue inputValue)
     {
         if (_attack != null)
         {
@@ -139,5 +139,10 @@ public class PlayerController1 : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnSprint(InputAction.CallbackContext context)
     {
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        throw new System.NotImplementedException();
     }
 }
