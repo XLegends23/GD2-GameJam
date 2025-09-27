@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
+public class PlayerController : MonoBehaviour
 {
     [Header("Objects")]
     [SerializeField] private CharacterController _controller;
@@ -9,13 +9,15 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
     [Header("Player Stats")]
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _jumpHeight;
+    [SerializeField] private float _rotateSpeed = 2.5f;
+
 
     private Vector3 _velocity;
     private Vector3 _movementDirection;
 
     private Vector2 _movementInput;
     private Vector2 _lookInput;
-    
+
 
     private PlayerControls _controls;
 
@@ -23,21 +25,26 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
 
     private void Awake()
     {
-        _controls = new PlayerControls();
-        _controls.Player.Enable();
-        _controls.Player.SetCallbacks(this);
+        //_controls = new PlayerControls();
+        //_controls.Player.Enable();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     void Update()
     {
-        _controller.Move(_velocity * Time.deltaTime);
-        IsGround = _controller.isGrounded;
+        //_controller.Move(_velocity * Time.deltaTime);
+        
         ApplyGravity();
         ApplyMovement();
+        ApplyRotation();
+        IsGround = _controller.isGrounded;
     }
 
+    private void ApplyRotation()
+    {
+        transform.forward = new Vector3(_camera.transform.forward.x, 0, _camera.transform.forward.z);
+    }
 
 
     void ApplyGravity()
@@ -52,21 +59,23 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
 
     void ApplyMovement()
     {
-        _movementDirection = new Vector3(_movementInput.x, 0, _movementInput.y);
-        _controller.Move(_movementDirection * Time.deltaTime * _movementSpeed);
+        Vector3 movementDirectionZ = transform.right * _movementInput.x;
+        Vector3 movementDirectionX = transform.forward * _movementInput.y;
+        _movementDirection = (movementDirectionX + movementDirectionZ).normalized;
+        transform.Translate(_movementDirection * (_movementSpeed * Time.deltaTime), Space.World);
     }
 
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputValue input)
     {
-        _movementInput = context.ReadValue<Vector2>();
+        _movementInput = input.Get<Vector2>();
         Debug.Log(_movementInput);
     }
 
-    public void OnLook(InputAction.CallbackContext context)
+    public void OnLook(InputValue input)
     {
+        _lookInput = input.Get<Vector2>();
     }
-
     public void OnAttack(InputAction.CallbackContext context)
     {
         throw new System.NotImplementedException();
@@ -82,7 +91,7 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
         throw new System.NotImplementedException();
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputValue value)
     {
         Debug.Log("try jump");
         if (IsGround)
