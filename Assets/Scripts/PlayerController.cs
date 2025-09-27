@@ -9,18 +9,13 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
     [Header("Player Stats")]
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _jumpHeight;
-    [Header("Camera Settings")]
-    [SerializeField] private float _cameraXSensitivity = 5f;
-    [SerializeField] private float _cameraYSensitivity = 5f;
-    [SerializeField] private float _lookLimitY = 89f;
 
     private Vector3 _velocity;
     private Vector3 _movementDirection;
 
     private Vector2 _movementInput;
     private Vector2 _lookInput;
-    private Vector2 _cameraRotation = Vector2.zero;
-    private Vector2 _playerTargetRotation = Vector2.zero;
+    
 
     private PlayerControls _controls;
 
@@ -31,6 +26,8 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
         _controls = new PlayerControls();
         _controls.Player.Enable();
         _controls.Player.SetCallbacks(this);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -41,10 +38,7 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
         ApplyMovement();
     }
 
-    //private void LateUpdate()
-    //{
-    //    ApplyLooking();
-    //}
+
 
     void ApplyGravity()
     {
@@ -61,17 +55,7 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
         _movementDirection = new Vector3(_movementInput.x, 0, _movementInput.y);
         _controller.Move(_movementDirection * Time.deltaTime * _movementSpeed);
     }
-    //void ApplyLooking()
-    //{
-    //    _cameraRotation.x += _cameraXSensitivity * _lookInput.x;
-    //    _cameraRotation.y =
-    //        Mathf.Clamp(_cameraRotation.y - _cameraYSensitivity * _lookInput.y, -_lookLimitY, _lookLimitY);
-        
-    //    _playerTargetRotation.x += transform.eulerAngles.x + _cameraXSensitivity * _lookInput.x;
-    //    transform.rotation = Quaternion.Euler(0f, _playerTargetRotation.x, 0f);
 
-    //    _camera.transform.rotation = Quaternion.Euler(_cameraRotation.y, _cameraRotation.x,0f);
-    //}
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -81,7 +65,6 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        //_lookInput = context.ReadValue<Vector2>();
     }
 
     public void OnAttack(InputAction.CallbackContext context)
